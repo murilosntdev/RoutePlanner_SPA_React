@@ -4,14 +4,15 @@ export const HomePage = styled.div`
     background-color: ${props => props.theme.colors.background};
     display: grid;
     grid-template-rows: auto 1fr;
-    height: 100vh;
+    min-height: 100vh;
+    height: auto;
 `
 
 export const Main = styled.main`
     align-items: stretch;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    padding: 2rem 2rem;
+    padding: 7rem 2rem 2rem;
 `
 
 export const Text = styled.p`
