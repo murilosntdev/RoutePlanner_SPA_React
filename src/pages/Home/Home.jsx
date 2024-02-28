@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar/Navbar.jsx";
 import * as S from "./HomeStyled.js";
 import api from "../../services/api.js";
 import translateInputName from "../../services/inputNameTranslator.js";
+import { Popup } from "../../components/Popup/Popup.jsx";
 
 const Home = () => {
     const [newCompanyFormData, setNewCompanyFormData] = useState({
@@ -19,7 +20,12 @@ const Home = () => {
         email: { active: false, message: '' },
         password: { active: false, message: '' },
         confirmPassword: { active: false, message: '' }
-    })
+    });
+    const [popupIsOpen, setPopupIsOpen] = useState(false);
+    const [popupInfos, setPopupInfos] = useState({
+        type: '',
+        content: ''
+    });
 
     function handleNewCompanyFormInputChange(event) {
         const inputName = event.target.name;
@@ -64,6 +70,11 @@ const Home = () => {
             switch (status) {
                 case 422: {
                     showInputErrors(details);
+                    break;
+                };
+                default: {
+                    setPopupInfos({type:"danger", content:`Não foi possível concluir o cadastro de sua conta. Por favor, tente novamente mais tarde`});
+                    togglePopup(true);
                     break;
                 }
             }
@@ -111,9 +122,24 @@ const Home = () => {
         });
     }
 
+    function togglePopup(newState) {
+        setPopupIsOpen(newState);
+
+        const timeout = setTimeout(() => {
+            setPopupIsOpen(false);
+        }, 5000);
+        return () => clearTimeout(timeout);
+    }
+
     return (
         <S.HomePage id="home-page" >
             <Navbar action="Login" />
+            <Popup
+                isOpen={popupIsOpen}
+                type={popupInfos.type}
+            >
+                {popupInfos.content}
+            </Popup>
             <S.Main>
                 <S.Text>
                     A sua solução completa para otimização de rotas de entrega. Nossa plataforma intuitiva oferece ferramentas poderosas para planejar, monitorar e otimizar suas rotas, economizando tempo e recursos valiosos.

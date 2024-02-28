@@ -4,6 +4,7 @@ import { SecBtn } from "../Button/ButtonStyled";
 export const Nav = styled.nav`
     align-items: center;
     background-color: ${props => props.theme.colors.primary};
+    box-shadow: 0px 10px 10px -8px ${props => props.theme.colors.background};
     display: flex;
     justify-content: space-between;
     padding: 1rem 4rem;

@@ -6,7 +6,7 @@ const theme = {
         darkPrimary: "#001a33",
         lightSecondary: "#ff9933",
         darkSecondary: "#b34700",
-        succes: "#199c5f",
+        success: "#199c5f",
         danger: "#ed1400",
         warning: "#deca1a",
         background: "#dcf9fb"
