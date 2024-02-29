@@ -15,9 +15,12 @@ export const Button = styled.button`
 `
 
 export const SecBtn = styled(Button)`
+  align-items: center;
   background-color: ${props => props.theme.colors.secondary};
   color: ${props => props.theme.colors.primary};
+  display: flex;
   font-size: ${props => props.theme.fontSizes.medium};
+  justify-content: center;
 
   &:hover {
     background-color: ${props => props.theme.colors.darkSecondary};

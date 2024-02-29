@@ -56,7 +56,7 @@ export const NewCompanyForm = (props) => {
                     errorText={props.inputError.confirmPassword.message}
                 />
             </FldSt>
-            <SecondaryButton>Cadastrar Empresa</SecondaryButton>
+            <SecondaryButton loading={props.loading}>Cadastrar Empresa</SecondaryButton>
         </Frm>
     )
 }

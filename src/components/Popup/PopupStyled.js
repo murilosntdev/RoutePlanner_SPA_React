@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const calculateType = (props) => {
-    console.log('->', props)
     if (props.type === 'success') {
         return `${props.theme.colors.success}`
     } else if (props.type === 'warning') {

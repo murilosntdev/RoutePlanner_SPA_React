@@ -26,6 +26,7 @@ const Home = () => {
         type: '',
         content: ''
     });
+    const [buttonLoading, setButtonLoading] = useState(false);
 
     function handleNewCompanyFormInputChange(event) {
         const inputName = event.target.name;
@@ -59,6 +60,8 @@ const Home = () => {
             password
         }
 
+        setButtonLoading(true);
+
         try {
             await api.post('account/newCompany', data).then(response => {
                 console.log('criacao 200');/////
@@ -67,13 +70,19 @@ const Home = () => {
             const status = error.response.data.error.status;
             const details = error.response.data.error.details;
 
+            setButtonLoading(false);
+
             switch (status) {
+                case 409: {
+                    show409Error(details);
+                    break;
+                }
                 case 422: {
                     showInputErrors(details);
                     break;
                 };
                 default: {
-                    setPopupInfos({type:"danger", content:`Não foi possível concluir o cadastro de sua conta. Por favor, tente novamente mais tarde`});
+                    setPopupInfos({ type: "danger", content: `Não foi possível concluir o cadastro de sua conta. Por favor, tente novamente mais tarde` });
                     togglePopup(true);
                     break;
                 }
@@ -131,6 +140,21 @@ const Home = () => {
         return () => clearTimeout(timeout);
     }
 
+    function show409Error(detail) {
+        const updatedInputsErrors = {
+            name: { active: false, message: '' },
+            cnpj: { active: false, message: '' },
+            email: { active: false, message: '' },
+            password: { active: false, message: '' },
+            confirmPassword: { active: false, message: '' }
+        }
+
+        updatedInputsErrors["cnpj"] = { ...updatedInputsErrors["cnpj"], active: true, message: '' };
+        updatedInputsErrors["email"] = { ...updatedInputsErrors["email"], active: true, message: detail };
+
+        setInputsErrors(updatedInputsErrors);
+    }
+
     return (
         <S.HomePage id="home-page" >
             <Navbar action="Login" />
@@ -149,6 +173,7 @@ const Home = () => {
                     onChange={handleNewCompanyFormInputChange}
                     onSubmit={handleNewCompanyFormSubmit}
                     inputError={inputsErrors}
+                    loading={buttonLoading}
                 />
             </S.Main>
         </S.HomePage>
