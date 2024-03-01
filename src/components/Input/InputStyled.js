@@ -7,6 +7,7 @@ export const Inpt = styled.input`
     height: 2.5rem;
     outline: none;
     padding: 0.5rem 1rem;
+    text-align: ${props => props.align === 'center' ? 'center' : 'left'};
 
     &:focus {
         outline: 0.15rem solid ${props => props.theme.colors.secondary};

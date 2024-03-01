@@ -9,6 +9,7 @@ export const FormInput = (props) => {
             spellCheck={props.spellCheck}
             min={props.min}
             placeholder={props.placeholder}
+            align={props.align}
             required={props.required}
             onChange={props.onChange}
             hasError={props.hasError}

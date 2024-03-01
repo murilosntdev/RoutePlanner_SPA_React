@@ -179,7 +179,7 @@ const Home = () => {
 
     return (
         <S.HomePage id="home-page" >
-            <Navbar action="Login" />
+            <Navbar action="login" />
             <Popup
                 isOpen={popupIsOpen}
                 type={popupInfos.type}

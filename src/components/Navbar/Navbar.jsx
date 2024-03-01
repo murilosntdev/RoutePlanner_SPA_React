@@ -3,13 +3,13 @@ import orangeIsoLogo from "../../images/orangeIsoLogo.svg";
 import { SecondaryButton } from "../Button/Button"
 import { ImgLogo, Nav } from "./NavbarStyled";
 
-const Navbar = () => {
+const Navbar = ({ action }) => {
     return (
         <Nav>
             <Link to={"/"}>
                 <ImgLogo src={orangeIsoLogo} alt="IsoLogo RoutePlanner" />
             </Link>
-            <SecondaryButton disabled>Login</SecondaryButton>
+            {action === "login" ? <SecondaryButton disabled>Login</SecondaryButton> : ''}
         </Nav>
     )
 }

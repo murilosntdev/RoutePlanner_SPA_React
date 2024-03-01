@@ -5,8 +5,15 @@ export const Frm = styled.form`
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
-    margin: auto 2rem;
     padding: 1.5rem 1rem;
+    `
+
+export const NwCmpnFrm = styled(Frm)`
+    margin: auto 2rem;
+`
+
+export const ActvtAccntFrm = styled(Frm)`
+    margin-bottom: 5rem;
 `
 
 export const Lgnd = styled.legend`

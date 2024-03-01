@@ -1,10 +1,10 @@
-import { Frm, Lgnd, FldSt } from "./FormStyled"
+import { NwCmpnFrm, ActvtAccntFrm, Lgnd, FldSt } from "./FormStyled"
 import { FormField } from "../Div/Div"
 import { SecondaryButton } from "../Button/Button"
 
 export const NewCompanyForm = (props) => {
     return (
-        <Frm onSubmit={props.onSubmit}>
+        <NwCmpnFrm onSubmit={props.onSubmit}>
             <Lgnd>{props.title}</Lgnd>
             <FldSt>
                 <FormField
@@ -57,6 +57,25 @@ export const NewCompanyForm = (props) => {
                 />
             </FldSt>
             <SecondaryButton loading={props.loading}>Cadastrar Empresa</SecondaryButton>
-        </Frm>
+        </NwCmpnFrm>
+    )
+}
+
+export const ActivateAccountForm = (props) => {
+    return (
+        <ActvtAccntFrm>
+            <Lgnd>{props.title}</Lgnd>
+            <FldSt>
+                <FormField
+                    nameId="authCode"
+                    type="text"
+                    spellCheck="false"
+                    placeholder="_ _ _ _ _ _"
+                    align="center"
+                    required
+                />
+            </FldSt>
+            <SecondaryButton>Validar Código</SecondaryButton>
+        </ActvtAccntFrm>
     )
 }
