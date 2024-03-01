@@ -5,8 +5,11 @@ import * as S from "./HomeStyled.js";
 import api from "../../services/api.js";
 import translateInputName from "../../services/inputNameTranslator.js";
 import { Popup } from "../../components/Popup/Popup.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+    const navigate = useNavigate();
+
     const [newCompanyFormData, setNewCompanyFormData] = useState({
         name: '',
         cnpj: '',
@@ -64,7 +67,7 @@ const Home = () => {
 
         try {
             await api.post('account/newCompany', data).then(response => {
-                console.log('criacao 200');/////
+                createAuthCodeRequest(response);
             })
         } catch (error) {
             const status = error.response.data.error.status;
@@ -153,6 +156,25 @@ const Home = () => {
         updatedInputsErrors["email"] = { ...updatedInputsErrors["email"], active: true, message: detail };
 
         setInputsErrors(updatedInputsErrors);
+    }
+
+    async function createAuthCodeRequest(response) {
+        const data = {
+            "action": "create_auth_code",
+            "account_type": response.data.details.account_info.type,
+            "cpf_cnpj": response.data.details.account_info.cnpj
+        };
+
+        try {
+            await api.post("account/activate", data).then(response => {
+                navigate("/ActivateAccount", { state: response.data.details });
+            })
+        } catch (error) {
+            setButtonLoading(false);
+
+            setPopupInfos({ type: "danger", content: `Não foi possível concluir o cadastro de sua conta. Por favor, faça login dentro de alguns minutos para prosseguir` });
+            togglePopup(true);
+        }
     }
 
     return (
