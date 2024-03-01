@@ -63,7 +63,7 @@ export const NewCompanyForm = (props) => {
 
 export const ActivateAccountForm = (props) => {
     return (
-        <ActvtAccntFrm>
+        <ActvtAccntFrm onSubmit={props.onSubmit}>
             <Lgnd>{props.title}</Lgnd>
             <FldSt>
                 <FormField
@@ -73,9 +73,12 @@ export const ActivateAccountForm = (props) => {
                     placeholder="_ _ _ _ _ _"
                     align="center"
                     required
+                    onChange={props.onChange}
+                    hasError={props.inputError.authCode.active}
+                    errorText={props.inputError.authCode.message}
                 />
             </FldSt>
-            <SecondaryButton>Validar Código</SecondaryButton>
+            <SecondaryButton loading={props.loading}>Validar Código</SecondaryButton>
         </ActvtAccntFrm>
     )
 }
