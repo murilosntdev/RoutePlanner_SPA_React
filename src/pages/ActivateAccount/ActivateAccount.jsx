@@ -6,8 +6,10 @@ import { useState } from "react";
 import api from "../../services/api";
 import translateInputName from "../../services/inputNameTranslator";
 import { Popup } from "../../components/Popup/Popup";
+import { useNavigate } from "react-router-dom";
 
 const ActivateAccount = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const infos = location.state;
 
@@ -51,7 +53,10 @@ const ActivateAccount = () => {
 
         try {
             await api.post('account/activate', data).then(response => {
-                console.log('validado');////////
+                setButtonLoading(false);
+                setPopupInfos({ type: "success", content: "Conta ativada com sucesso. Faça login a qualquer momento para acessá-la" });
+                togglePopup(true);
+                goTo("/");
             })
         } catch (error) {
             const status = error.response.data.error.status;
@@ -98,6 +103,13 @@ const ActivateAccount = () => {
 
         const timeout = setTimeout(() => {
             setPopupIsOpen(false);
+        }, 5000);
+        return () => clearTimeout(timeout);
+    }
+
+    function goTo(pageAddress) {
+        const timeout = setTimeout(() => {
+            navigate(pageAddress);
         }, 5000);
         return () => clearTimeout(timeout);
     }
