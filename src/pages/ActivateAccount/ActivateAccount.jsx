@@ -5,6 +5,7 @@ import { ActivateAccountForm } from "../../components/Form/Form";
 import { useState } from "react";
 import api from "../../services/api";
 import translateInputName from "../../services/inputNameTranslator";
+import { Popup } from "../../components/Popup/Popup";
 
 const ActivateAccount = () => {
     const location = useLocation();
@@ -16,6 +17,11 @@ const ActivateAccount = () => {
     const [buttonLoading, setButtonLoading] = useState(false);
     const [inputErrors, setInputErrors] = useState({
         authCode: { active: false, message: '' }
+    });
+    const [popupIsOpen, setPopupIsOpen] = useState(false);
+    const [popupInfos, setPopupInfos] = useState({
+        type: '',
+        content: ''
     });
 
     function handleActivateAccountFormInputChange(event) {
@@ -54,10 +60,19 @@ const ActivateAccount = () => {
             setButtonLoading(false);
 
             switch (status) {
+                case 400: {
+                    show400Error(details);
+                    break;
+                }
                 case 422: {
                     showInputErrors(details);
                     break;
-                }
+                };
+                default: {
+                    setPopupInfos({ type: "danger", content: "Não foi possível concluir a ativação de sua conta. Por favor, tente novamente mais tarde" })
+                    togglePopup(true);
+                    break;
+                };
             }
         }
     }
@@ -78,9 +93,34 @@ const ActivateAccount = () => {
         });
     }
 
+    function togglePopup(newState) {
+        setPopupIsOpen(newState);
+
+        const timeout = setTimeout(() => {
+            setPopupIsOpen(false);
+        }, 5000);
+        return () => clearTimeout(timeout);
+    }
+
+    function show400Error(detail) {
+        const updatedInputError = {
+            authCode: { active: false, message: '' }
+        }
+
+        updatedInputError['authCode'] = { ...updatedInputError['authCode'], active: true, message: detail };
+
+        setInputErrors(updatedInputError);
+    }
+
     return (
         <S.ActivateAccountPage id="ActivateAccount-page">
             <Navbar action="none" />
+            <Popup
+                isOpen={popupIsOpen}
+                type={popupInfos.type}
+            >
+                {popupInfos.content}
+            </Popup>
             <S.Main>
                 <S.Text>{infos.result}</S.Text>
                 <ActivateAccountForm
